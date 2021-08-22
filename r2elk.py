@@ -126,7 +126,9 @@ class Triage:
         Return: rzpipe object.
         """
         try:
-            return rzpipe.open(self.current_binary)
+            rzobj = rzpipe.open(self.current_binary)
+            rzobj.cmd("aaa")
+            return rzobj
         except IOError:
             print("[!] Error opening file %s." % str(self.current_binary))
             sys.exit(1)
@@ -177,6 +179,16 @@ class Triage:
             self.metadata["sections"] = sections
         except:
             self.metadata["sections"] = "Error getting executable section information"
+
+    def get_functions(self):
+        """
+        use rzpipe to get function list
+        """
+        functions = self.r2obj.cmdj('aflj')
+        try:
+            self.metadata["functions"] = functions
+        except:
+            self.metadata["functions"] = "Error getting executable function information"
 
     def get_metadata(self):
         """

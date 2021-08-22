@@ -14,7 +14,7 @@ try:
     import errno
     import json
     import argparse
-    import r2pipe
+    import rzpipe
     import requests
     import yara
     import hashlib
@@ -123,10 +123,10 @@ class Triage:
         """
         Name: __r2_load__
         Purpose: Create a r2 instance for triage object to use.
-        Return: r2pipe object.
+        Return: rzpipe object.
         """
         try:
-            return r2pipe.open(self.current_binary)
+            return rzpipe.open(self.current_binary)
         except IOError:
             print("[!] Error opening file %s." % str(self.current_binary))
             sys.exit(1)

@@ -5,8 +5,7 @@
     in JSON format.
 """
 try:
-    from os import access
-    from os import R_OK
+    from os import access, R_OK
     from datetime import datetime
     from stat import S_ISREG
     import sys
@@ -98,9 +97,11 @@ class Utils:
         """
 
         try:
+            if not os.path.isdir("reports"):
+                os.makedirs("reports")
             if "/" in fname:
                 fname = fname.split("/")[-1]
-            with open(fname+".json", "w") as fout:
+            with open("reports/" + fname +".json", "w") as fout:
                 json.dump(json_blob, fout, indent=4)
                 # fout.write(json.dumps(json_blob))
         except IOError as io_err:
@@ -175,7 +176,7 @@ class Triage:
         Purpose: Leverage r2pipe to get MD5 and SHA1 hash
         Return: N/A, populate self.metadata dict.
         """
-        sections = self.r2obj.cmdj('iSj')
+        sections = self.r2obj.cmdj('iSj md5')
         try:
             self.metadata["sections"] = sections
         except:

@@ -33,7 +33,7 @@ Data that is attempted to be extracted/identified is as follows:
 * Yara Rule matching
 
 Forked version added
-* Analysis file (aaa mode). The progress will be slower
+* Analysis file (aa mode). The progress will be slower
 * Added list of functions (depends on analysis)
 * Added md5sum for sections
 

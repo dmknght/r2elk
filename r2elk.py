@@ -129,7 +129,7 @@ class Triage:
         """
         try:
             rzobj = rzpipe.open(self.current_binary)
-            rzobj.cmd("aaa")
+            rzobj.cmd("aa")
             return rzobj
         except IOError:
             print("[!] Error opening file %s." % str(self.current_binary))
@@ -440,9 +440,11 @@ if __name__ == "__main__":
     elif args.directory is not None and args.rhost is None and args.rport is None:
         file_list = util.list_files(args.directory)
         for binary in file_list:
+            print(f"Analyzing {binary}")
             tobj = Triage(binary, args.yara)
             json_data = tobj.run_triage(args.yara)
             if args.verbose:
-                print(json_data)
+                print(json.dumps(json_data, indent=2, separators=(',', ': ')))
+            util.write_output(args.file, json_data)
     else:
         parser.print_help()

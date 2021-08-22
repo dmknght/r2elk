@@ -445,6 +445,6 @@ if __name__ == "__main__":
             json_data = tobj.run_triage(args.yara)
             if args.verbose:
                 print(json.dumps(json_data, indent=2, separators=(',', ': ')))
-            util.write_output(args.file, json_data)
+            util.write_output(binary, json_data)
     else:
         parser.print_help()

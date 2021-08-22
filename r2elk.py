@@ -312,7 +312,7 @@ class Triage:
         Return: N/A, populate self.metadata dict.
         """
         try:
-            string_json = self.r2obj.cmdj('izj')
+            string_json = self.r2obj.cmdj('izzj')
             for count, string in enumerate(string_json):
                 self.metadata['string_' + str(count)] = string.get('string')
         except AttributeError:

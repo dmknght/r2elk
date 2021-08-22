@@ -101,7 +101,8 @@ class Utils:
             if "/" in fname:
                 fname = fname.split("/")[-1]
             with open(fname+".json", "w") as fout:
-                fout.write(json.dumps(json_blob))
+                json.dump(json_blob, fout, indent=4)
+                # fout.write(json.dumps(json_blob))
         except IOError as io_err:
             print("io_err")
 
@@ -358,7 +359,7 @@ class Triage:
 
         self.metadata["yara_rules"] = yara_matches
 
-    def run_triage(self, yarascan=None):
+    def run_triage(self, yarascan=None, is_local=False):
         """
         Name: run_triage
         Purpose: Perform metadata triage of binaries.
@@ -371,11 +372,16 @@ class Triage:
         self.get_hashes()
         self.get_strings()
         self.get_sections()
+        self.get_functions()
         if yarascan is not None:
             self.yara_scan(self.current_binary)
 
         self.__r2_close__()  # Close r2 pipe object.
-        return json.dumps(self.metadata)
+        if not is_local:
+            return json.dumps(self.metadata)
+        else:
+            # return json.dumps(self.metadata, indent=4, separators=(',', ': '))
+            return self.metadata
 
 
 if __name__ == "__main__":
@@ -424,9 +430,9 @@ if __name__ == "__main__":
     # Just parse and print single file
     elif args.file is not None and args.rhost is None and args.rport is None:
         tobj = Triage(args.file, args.yara)
-        json_data = tobj.run_triage(args.yara)
+        json_data = tobj.run_triage(args.yara, is_local=True)
         if args.verbose:
-            print(json_data)
+            print(json.dumps(json_data, indent=2, separators=(',', ': ')))
         util.write_output(args.file, json_data)
 
     # Just parse and print a directory of files

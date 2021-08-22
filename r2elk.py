@@ -442,7 +442,7 @@ if __name__ == "__main__":
         for binary in file_list:
             print(f"Analyzing {binary}")
             tobj = Triage(binary, args.yara)
-            json_data = tobj.run_triage(args.yara)
+            json_data = tobj.run_triage(args.yara, is_local=True)
             if args.verbose:
                 print(json.dumps(json_data, indent=2, separators=(',', ': ')))
             util.write_output(binary, json_data)
